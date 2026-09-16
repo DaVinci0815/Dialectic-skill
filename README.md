@@ -8,6 +8,8 @@
     <img src="https://img.shields.io/badge/version-3.1-black?style=flat-square" alt="v3.1">
     <img src="https://img.shields.io/badge/support-Claude%20%7C%20Cursor%20%7C%20ChatGPT%20%7C%20Trae%20%7C%20Antigravity-blue?style=flat-square" alt="Support">
     <img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" alt="MIT">
+  <p align="center">
+    <img src="assets/banner.jpg" alt="Dialectic Banner" width="100%">
   </p>
 </p>
 
