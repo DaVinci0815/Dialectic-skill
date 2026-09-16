@@ -3,18 +3,19 @@
   <p align="center">
     <b>不只是让你构建结论，而是强迫你摧毁它。</b>
     <br/>
-    <sub>从第一性原理出发的产品决策对抗性审查框架（偏见检测系统）— 任何 AI 工具即装即用</sub>
+    <sub>从第一性原理出发的产品决策对抗性审查微内核（偏见检测系统）— 任何 AI 工具即装即用</sub>
   </p>
   <p align="center">
-    <img src="https://img.shields.io/badge/version-3.0-3C3489?style=flat-square" alt="v3.0">
+    <img src="https://img.shields.io/badge/version-3.1%20Kernel-3C3489?style=flat-square" alt="v3.1 Kernel">
     <img src="https://img.shields.io/badge/license-MIT-1D9E75?style=flat-square" alt="MIT">
     <img src="https://img.shields.io/badge/platform-AI%20agnostic-534AB7?style=flat-square" alt="AI agnostic">
-    <img src="https://img.shields.io/badge/lines-263-888780?style=flat-square" alt="263 lines">
+    <img src="https://img.shields.io/badge/lines-214-888780?style=flat-square" alt="214 lines">
   </p>
   <p align="center">
     <a href="#快速上手-quick-start">⚡ 快速上手</a> ·
     <a href="#-核心流程与架构">📋 核心架构</a> ·
-    <a href="#-v30-重大演进">✨ v3.0 更新</a> ·
+    <a href="#-四大深水区飞刀">🔪 四大飞刀</a> ·
+    <a href="#-v31-重大演进">✨ v3.1 更新</a> ·
     <a href="#-在任何-ai-工具中使用">🔧 安装使用</a> ·
     <a href="#-自动化评测基准-evals">🧪 评测基准</a> ·
     <a href="#about">🇬🇧 English</a>
@@ -27,20 +28,23 @@
 > **Dialectic 教你："假设你是错的，从现场利益博弈与机制死锁中彻底摧毁它。"**  
 >
 > 这是两者之间最本质的差距。没有经过对抗性审查的结论，本质上只是未经检验的愿望。  
-> **核心公理**：通过 Dialectic 审查 ≠ 证明需求成立，仅代表**当前已知证据不足以将其击穿**。
+> **核心公理**：通过 Dialectic 审查 ≠ 证明需求成立，仅代表**当前已知证据不足以将其击穿**。  
+> **双向对称防御**：不仅在推方案时寻找反例，在判定弱需求时，也强制回答*“有什么微弱信号可能让它成立”*，防止审查者自身的智力虚荣与过度驳回。
 
 ---
 
 ## 🎯 这解决了什么问题？
 
-| 😵 没有 Dialectic | 🧠 有 Dialectic v3.0 |
+| 😵 没有 Dialectic | 🧠 有 Dialectic v3.1 |
 |---|---|
 | “我觉得这个需求很真，大家都会用” | **A 轨高频模型**：$Pain(3) 	imes Freq(1) 	imes Dissat(2) 	imes Switch(1) = 6$，**判定弱需求** |
 | “一年只用 1~2 次的合规系统，毫无性价比，砍掉” | **B 轨责任除法**：单次出错代价极高、责任暴露在主管领导，**强力拦截“低频误杀”，判定刚需** |
-| “竞品没人做，这是绝佳的蓝海机会” | **角色博弈硬门禁**：穿透到现场经办人多填 4 张表却毫无收益，必定集体消极抵制 |
-| “全新交互概念，没有历史数据直接被枪毙” | **S 轨创新沙盒**：抓取唯一最脆弱假设，签发 7 天 / ¥500 配额与极简单点实验 |
+| “功能很完美，但上线后大家在暗中消极抵制” | **冷启动死亡谷**：抓出“第一个倒霉蛋”，在飞轮跑通前未给其即时代偿导致系统猝死 |
+| “全员 100% 达成系统考核指标，业务却毫无起色” | **古德哈特反噬**：穿透聪明人的“表演性合规”，提前发现指标被合规玩弄的荒诞笑话 |
+| “UI 设计了很多高级确认和选择，用户却直呼难用” | **脑干甩锅税**：严查系统是否因算法偷懒，把不确定性通过弹窗甩锅给用户脑干 |
+| “引入 AI 智能决策，结果模型幻觉导致合规灾难” | **AI 物理熔断闸**：强制审查是否有毫秒级脱离大模型的物理硬兜底，无兜底即自杀 |
 | “方案被全盘否决，几个月心血白费陷入迷茫” | **Pivot 变形引擎**：提取 20% 发心内核，提供切片 10%、宿主寄生、半人工代偿等退路 |
-| “引用的政策法规模棱两可，被客户当场打脸” | **三级法规隔离**：强制分清【条文原文】、【合理推断】与【实务惯例】 |
+| “打分变成了凑数字的‘数字占星术’” | **公式脱虚向实**：量化公式不再是算命机器，而是快速定位团队认知分歧的“诊断仪” |
 
 ---
 
@@ -73,7 +77,7 @@
 ```
 
 ### 3. 📋 Standard / Deep Mode（全维对抗会诊·重大决策）
-适用于：核心产品线、重大商业决策、政企招投标方案（跑完 18 项深度对抗推演）。
+适用于：核心产品线、重大商业决策、政企招投标方案（跑完多维深度对抗推演）。
 
 ---
 
@@ -86,7 +90,7 @@
         ▼                             ▼                             ▼
 【Flash Mode 折叠手术刀】      【Sandbox Mode 创新沙盒】      【Standard / Deep 全维会诊】
   • 适用：按钮/UI微调/小功能     • 适用：前沿新物种/新交互      • 适用：核心模块/新业务/重大决策
-  • 成本：1 分钟两问见血         • 成本：7天/¥500 配额与实验     • 成本：18 维全景对抗推演
+  • 成本：1 分钟两问见血         • 成本：7天/¥500 配额与实验     • 成本：全景组织动力学对抗推演
   • 产出：速查卡 (模板 1)        • 产出：沙盒卡 (模板 2)        • 产出：全维报告 (模板 3)
                                                                     │
                                             ┌───────────────────────┴───────────────────────┐
@@ -97,17 +101,18 @@
                                             └───────────────────────┬───────────────────────┘
                                                                     │
                                                                     ▼
-                                                       【五大不可违背 Hard Gates】
+                                                       【深水区四大飞刀 + 硬门禁】
                                                     1. 利益受损角色具象化（指名道姓）
-                                                    2. B 轨严禁频率乘法误杀
-                                                    3. 法规三级隔离（原文/推断/惯例）
-                                                    4. 弱需求强制触发 Pivot 变形
-                                                    5. 唯一最脆弱假设显式标记
+                                                    2. 冷启动相变税（第一个倒霉蛋）
+                                                    3. 古德哈特反噬（表演性合规玩弄指标）
+                                                    4. 脑干甩锅税（多余弹窗与认知超载）
+                                                    5. AI 概率决策毫秒级物理熔断闸
+                                                    6. 法规三级隔离（原文/推断/惯例）
                                                                     │
                                                                     ▼
                                                        【Pre-Mortem 事前验尸】
                                                     预设 12 个月后惨败，找出 3 个致命死因
-                                                    （至少 1 个源于现场角色消极抵抗）
+                                                    （至少 1 个源于现场角色消极抵抗/表演反噬）
                                                                     │
                                                                     ▼
                                                        【收敛判定与 Pivot 变形】
@@ -117,40 +122,51 @@
 
 ---
 
-## 🚫 五大不可违背 Hard Gates
+## 🔪 四大深水区飞刀
 
-审查过程中只要触犯任一条，该评估直接判定**不合格并退回重做**：
+v3.1 引入了从复杂组织博弈中淬炼出的 4 把锋利飞刀，专门刺杀隐藏最深的“系统死穴”：
 
-1. **Gate 1：利益受损角色具象化 (Stakeholder Friction)**  
-   必须指名道姓现场的具体自然人角色（经办人、科室主任、网点操作工），指出其增加的麻烦与权力受损点。**严禁使用“用户习惯难改”、“市场需要教育”等空话。**
-2. **Gate 2：B 轨严禁使用“频率乘法”误杀 (No Frequency Bias)**  
-   严肃考务、医疗大检、金融合规、应急灾备属于低频高价值业务，**低频绝不等于弱需求**，必须按责任暴露与合规压力建模。
-3. **Gate 3：法规与监管三级隔离 (Compliance 3-Tier)**  
-   涉及政策标准时，必须显式区分标注：**【条文原文】**（白纸黑字）、**【合理推断】**（逻辑衍生）、**【实务惯例】**（现场通融）。严禁混淆。
-4. **Gate 4：弱需求强制触发 Pivot 变形 (Pivot Engine Compulsion)**  
-   方案被驳倒时，禁止一枪毙命后结束。必须剥离实现方式，保留 20% 发心内核，给出切片、寄生或代偿退路。
-5. **Gate 5：致命假设显式标记 (Red-Flag Assumption)**  
-   必须标出唯一最脆弱假设，回答：“如果这个假设错了，整个项目靠什么立足？”
+1. 💡 **冷启动相变税 (Cold-Start Phase Transition / 第一个倒霉蛋定律)**  
+   *“在系统产生哪怕一次正向飞轮之前，链条上的第一个倒霉蛋需要毫无回报地白白付出多久？”*  
+   若前期纯靠一线人员无私奉献填数据，且无即时代偿，系统必在产生价值前死于启动真空期。
+2. 🎭 **古德哈特反噬 (Goodhart's Gaming / 表演性合规)**  
+   *“当系统与考核指标挂钩后，最聪明狡黠的人会用什么合规手段把机制玩成一场荒诞笑话？”*  
+   识别全员复制粘贴日志、机器人念模板通关等机制反噬。
+3. 🧠 **脑干甩锅税 (Cognitive & Attention Tax / 注意力超载)**  
+   *“这个功能是否把系统偷懒留下的‘不确定性’，以多余的弹窗、确认、打标甩锅给了用户的脑干？”*  
+   审查系统的非必要弹窗与选择摩擦，拒绝消耗用户的神经带宽。
+4. 🛡️ **AI 概率决策物理熔断闸 (AI Circuit Breaker)**  
+   *“当底层概率 AI 出现严重幻觉时，是否有毫秒级脱离大模型的物理硬兜底？”*  
+   严肃合规场景下，没有物理拉闸兜底的 AI 自动化决策一律判定为自杀式功能。
 
 ---
 
-## ✨ v3.0 重大演进
+## 🚫 五大不可违背 Hard Gates
+
+1. **Gate 1：利益受损角色具象化 (Stakeholder Friction)**：必须指名道姓具体岗位（经办人、科室主任），严禁“用户习惯难改”等空词。
+2. **Gate 2：B 轨严禁使用“频率乘法”误杀 (No Frequency Bias)**：严肃考务、医疗大检、政务合规低频不等于弱需求。
+3. **Gate 3：法规与监管三级隔离 (Compliance 3-Tier)**：严格标注【条文原文】、【合理推断】与【实务惯例】。
+4. **Gate 4：弱需求强制触发 Pivot 变形 (Pivot Engine Compulsion)**：被驳倒方案必须提炼 20% 发心内核并给出代偿生路。
+5. **Gate 5：致命假设显式标记 (Red-Flag Assumption)**：标出唯一致命死穴并制定验证计划。
+
+---
+
+## ✨ v3.1 重大演进
 
 ```
-v2.1 (824 行) ──────────────────────────→ v3.0 Engineered (263 行)
- 单一长流程漏斗                              三档按需分流状态机 (Flash / Sandbox / Deep)
- 传统高频乘法误杀低频                          A/B/S 三轨模型 (引入 B 轨合规除法与 S 轨沙盒)
- 易产生假大空泛泛批判                          Gate 1 角色具象化硬门禁 (穿透到经办人/科室主任)
- 审查不通过直接判死刑                          Pivot 变形引擎 (切片 10% / 宿主寄生 / 服务代偿)
- 法规引用边界模糊                             三级法规隔离 (【条文原文】/【合理推断】/【实务惯例】)
- 文档冗长 Token 消耗大                        体积精简 33%，机器级 Hard Gate 控制流
+v2.1 (824 行) ──────────────→ v3.0 (434 行) ──────────────→ v3.1 Kernel (214 行)
+ 冗长漏斗大杂烩                 三轨模型与沙盒雏形               Core Kernel 微内核（精简 74%）
+ 传统高频乘法误杀               B 轨合规除法与沙盒               防数字占星术：公式降维为“分歧诊断仪”
+ 容易产生泛泛批判               角色博弈硬门禁                   深水区四大飞刀：冷启动/古德哈特/脑干税/AI熔断
+ 审查者容易智力虚荣             双向少数派防御                   双向对称防御彻底锁死
+ 驳倒方案即判死刑               Pivot 变形引擎                   切片 10%、宿主寄生、服务代偿体系化
 ```
 
 ---
 
 ## 🔧 在任何 AI 工具中使用
 
-Dialectic 是一份纯文本指令文件 (`SKILL.md`)，原生支持所有主流 AI 编程助手与大模型：
+Dialectic 是一份精炼的指令文件 (`SKILL.md`)，原生支持所有主流 AI 编程助手与大模型：
 
 ### 一行命令安装（Antigravity / Claude Code）
 
@@ -177,12 +193,11 @@ git clone https://github.com/shahuichao24-ops/Dialectic-skill.git ~/.agents/skil
 
 ## 🧪 自动化评测基准 (Evals)
 
-本项目自带测试用例套件 (`evals/test_cases.md`)，覆盖对抗审查的核心矩阵：
-
-- **用例 1 (C 端功能膨胀)**：桌面小工具增加每日勋章打卡 → *验证 Flash Mode 两问速查拦截*；
-- **用例 2 (B 端低频合规)**：千人特种作业统考砍掉人脸核验 → *验证 B 轨责任除法抗低频误杀*；
+随库附带测试套件 (`evals/test_cases.md`)：
+- **用例 1 (C 端虚荣膨胀)**：桌面小工具增加每日勋章打卡 → *验证 Flash Mode 两问速查拦截*；
+- **用例 2 (B 端低频合规)**：千人执业资格统考砍掉人脸核验 → *验证 B 轨责任除法抗低频误杀*；
 - **用例 3 (新物种交互)**：耳机微手势盲操闪念录音 → *验证 S 轨沙盒 7 天配额与脆弱假设*；
-- **用例 4 (企业管理自嗨)**：全员每日心情晴雨表看板 → *验证 Gate 1 利益阻力穿透与事前验尸*。
+- **用例 4 (企业管理自嗨)**：全员每日心情晴雨表看板 → *验证 Gate 1 利益阻力穿透与古德哈特反噬*。
 
 ---
 
@@ -197,31 +212,27 @@ MIT © 2026 [shahuichao](https://github.com/shahuichao24-ops)
 ## 🇬🇧 About
 
 > **Most methodologies teach you: "Build a framework, then score it to prove yourself right."**  
-> **Dialectic teaches you: "Assume you are wrong, then dismantle it from stakeholder friction and mechanism failure."**  
->
-> Passing Dialectic review does NOT prove that a demand is valid; it merely proves that **currently available evidence is insufficient to destroy it**.
+> **Dialectic teaches you: "Assume you are wrong, then dismantle it from stakeholder friction and mechanism failure."**
 
-### 🎯 Core Upgrades in v3.0
+### 🎯 Key Upgrades in v3.1 Kernel (214 lines)
 
+- **Core Micro-Kernel Architecture**: Shrunk from 824 lines to 214 lines of high-density instructions, eliminating cognitive overhead and attention drift.
+- **Formula as a Diagnostic Instrument**: Quantitative formulas are explicitly defined not as scoring divination, but as instruments to pinpoint where team disagreements lie (e.g., Switchability vs Institutional Pressure).
+- **Four Deep-Water Attack Vectors**:
+  1. *Cold-Start Phase Transition (The First Sucker Problem)*: How long must the first user sacrifice without return before the system produces flywheel value?
+  2. *Goodhart's Gaming (Performative Compliance)*: How will clever actors legally game this metric into an absurd farce?
+  3. *Cognitive & Attention Tax*: Is the system offloading algorithmic uncertainty onto user brainstems via unnecessary confirmations?
+  4. *Deterministic Circuit Breaker for AI*: Does high-risk AI decisioning have a sub-second physical failsafe without LLMs?
 - **3-Track Evaluation (A/B/S Tracks)**:
-  - **Track A (High-Frequency Efficiency)**: $Pain \times Freq \times Dissat \times Switchability$.
-  - **Track B (Low-Frequency Liability & Compliance)**: $\frac{ErrorCost \times ResponsibilityExposure \times BudgetAlignment \times InstitutionalPressure}{AdoptionFriction}$. Prevents false negatives on high-value, low-frequency enterprise/gov needs.
-  - **Track S (Non-consensus Sandbox)**: For brand-new paradigms without historical data. Assigns a $\le 7$ days / $\le \$500 quota and verifies the single most fragile assumption.
-- **5 Indispensable Hard Gates**:
-  1. *Stakeholder Friction*: Must name concrete human roles (e.g., branch clerks, department directors) and their friction/resistance. No abstract clichés like "habits are hard to change".
-  2. *No Frequency Bias*: Strict prohibition against killing low-frequency compliance needs with Track A formulas.
-  3. *3-Tier Compliance Isolation*: Explicitly demarcates `[Exact Statute]`, `[Logical Inference]`, and `[Industry Custom]`.
-  4. *Pivot Engine*: Mandatory redemption paths (10% slice, host attachment, service-first) when an idea is rejected.
-  5. *Red-Flag Assumption*: Must identify the single point of failure.
-- **3 Decoupled Output Modes**:
-  - ⚡ **Flash Mode**: 1-minute, two fatal questions.
-  - 🧪 **Sandbox Mode**: 7-day minimum experimentation card.
-  - 📋 **Full Mode**: Comprehensive 18-dimension deep audit.
+  - *Track A (High-Frequency Efficiency)*
+  - *Track B (Low-Frequency Liability & Compliance)*
+  - *Track S (Non-consensus Sandbox)*
+- **Pivot Engine**: Mandatory 10% slice, host attachment, or service-first redemption routes.
 
 ### 🔧 Installation
 
 ```bash
 git clone https://github.com/shahuichao24-ops/Dialectic-skill.git ~/.agents/skills/Dialectic
 ```
-Then simply ask your AI agent:
-> *"Run a Dialectic review on my new feature proposal."*
+Then ask your AI agent:
+> *"Run a Dialectic review on my new proposal."*
