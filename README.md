@@ -2,7 +2,7 @@
   <h1 align="center">🛡️ Dialectic · 驳真</h1>
   <p align="center">
     <b>产品决策对抗性审查框架</b><br/>
-    <sub>在投入开发前发现方案漏洞与落地阻力，含基于本地账本的文件级对账闭环</sub>
+    <sub>在投入开发前发现方案漏洞与落地阻力，含文件级到期对账闭环</sub>
   </p>
   <p align="center">
     <img src="https://img.shields.io/badge/version-3.3-black?style=flat-square" alt="v3.3">
@@ -29,17 +29,11 @@
 
 ## 运行机制
 
-### 1. Step 0 文件级到期对账扫描
-无状态模型无法自持记忆，本框架通过本地文件 `~/.dialectic/ledger.md` 实现跨会话闭环。  
-每次调用时，模型首先读取该文件。若有断言已达到观察期，须先引导完成五态对账，再进入新审查：
-```text
-[ ] 验证命中 (已按方案执行，断言成立)
-[ ] 预测失误 (已按方案执行，出现反例)
-[ ] 样本不足 (已按方案执行，但观察期内数据不足)
-[ ] 方案未执行 (用户未采纳建议/执行变形，不计入准确率)
-[ ] 外部干扰 (出现不可抗力/外部重大变量改变)
-```
-若未发现到期项，模型显式声明 `[Step 0: 未检测到到期留痕项，直接进入本次审查]`。审查完成后，新的留痕桩自动追加至该文件。
+### 1. 载体能力与 Step 0 对账
+- **文件载体 (Cursor / Claude Code / Trae / Antigravity / 命令行)**：  
+  全功能模式。自动维护本地账本 `~/.dialectic/ledger.md`。每次启动审查前，模型主动扫描 `## 待对账` 分区中的到期条目；对账完成后将该条标记为 `resolved` 并移入 `## 已归档` 分区，避免重复对账与上下文膨胀。写入新记录后进行回读校验。
+- **无文件载体 (ChatGPT Custom Instructions / 纯 Web 聊天)**：  
+  自动降级为**「手动台账模式」**。因环境无本地磁盘读写权限，模型在输出留痕桩时提示用户自行复制至本地笔记；下次使用时用户可手动贴回未核销记录。明确声明降级，不假装闭环。
 
 ### 2. 三张场景卡片
 - **卡片 A（组织影响）**：用于跨部门方案与上会决策。审查利益受损岗位、背锅风险与形式主义应付。
@@ -64,16 +58,17 @@
 
 ---
 
-## 准确率看板与失误记录
+## 准确率看板与信誉防线
 
-本框架记录每次预测对账结果，作为规则持续修订的依据：
+为防止将预测失误轻率归咎于“环境变化”，选择“外部干扰”必须强制提供具体因果阻断举证：
 
 | 指标项 | 当前数据 | 说明 |
 |---|---|---|
 | **累计有效样本** | **0** | 仅统计命中与失误项，$\ge 5$ 次开始评估 |
 | **预测命中率** | **-%** | $\ge 70\%$ 框架有效；$< 50\%$ 须重构规则 |
 | **公开失误次数** | **0** | 每次预测失误均沉淀为一条规则补丁 |
-| **方案未执行率** | **-%** | 独立统计，评估建议在现实中的采纳难度 |
+| **方案未执行率** | **-%** | 独立统计，评估建议在现实中的落地可行性 |
+| **外部干扰率** | **-%** | 占比 $> 20\%$ 提示断言隔离外生变量能力不足 |
 | **样本不足率** | **-%** | 占比 $> 30\%$ 提示断言不够具体或观察期过长 |
 
 ---
@@ -84,7 +79,7 @@
 2026 年 9 月，外部审查者使用本框架自身的审查逻辑对框架执行了严格测试，判定“真需求，但原方案不成立”，并指出了以下核心问题：
 
 1. **业务轨道错配**：本框架核心价值在于避免高代价重大失误，属于典型的“低频高责任”工具，前期却误按“每天都想用”的高频日常工具来定位与设计指标；
-2. **作者画像盲区**：作者具备对抗性思维、抗压能力与充足心理余量，因此天然适应被否定；但忽略了该框架对经验尚浅、处境焦虑、需要信心推力的人群可能造成的挫败与心理伤害（只有作者能用的工具不是合格产品）；
+2. **作者画像盲区**：作者具备对抗性思维、抗压能力与充足心理余量，因此天然耐受否定；但严重忽略了该框架对经验尚浅、处境焦虑、需要信心推力的人群造成的挫败与心理伤害（只有作者能用的工具不是合格产品）；
 3. **数字缺乏依据**：设置固定的金额与天数阈值（¥2000/7天），用伪精确替换真判断，滑入形式主义；
 4. **诱发角色捏造**：在没有真实用户的早期或个人项目中，强制要求指出受损角色导致模型编造假角色；
 5. **缺少验证闭环**：此前版本仅修改文本表述，从未建立真正回测准确率的对账机制。
@@ -94,18 +89,22 @@
 
 ---
 
-## 使用方式
+## 安装与使用
 
-### 1. 初始化本地账本 (仅需一次)
+### 1. 本地文件载体 (推荐)
+适用于 **Claude Code / Cursor / Trae / Antigravity / 命令行 Agent**：
 ```bash
+# 初始化账本
 mkdir -p ~/.dialectic && touch ~/.dialectic/ledger.md
-```
 
-### 2. 安装技能
-```bash
+# 克隆技能
 git clone https://github.com/shahuichao24-ops/Dialectic-skill.git ~/.agents/skills/Dialectic
 ```
-或直接将 [`SKILL.md`](SKILL.md) 复制到 Cursor (`.cursorrules`)、Trae 或 ChatGPT Custom Instructions 中。
+将自动启用 Step 0 自动读写与归档对账。
+
+### 2. 无文件载体
+适用于 **ChatGPT Custom Instructions / 纯 Web 界面**：  
+直接将 [`SKILL.md`](SKILL.md) 复制到 Custom Instructions 中。系统将自动降级为「手动台账模式」，每次审查输出独立留痕文本块供手动记录。
 
 ### 3. 调用示例
 > *“帮我用驳真评估这个功能要不要做”*  
@@ -117,16 +116,9 @@ git clone https://github.com/shahuichao24-ops/Dialectic-skill.git ~/.agents/skil
 
 > **Adversarial product decision review framework with file-backed falsification ledgers.**
 
-### Local Ledger Setup
-```bash
-mkdir -p ~/.dialectic && touch ~/.dialectic/ledger.md
-```
-
-### Mechanism
-- **Step 0 Pre-Flight Check**: Actively inspects `~/.dialectic/ledger.md` for overdue predictions and requires 5-state resolution before starting a new audit.
-- **Card A (Org Impact)**: Penetrates stakeholder friction, bureaucratic gaming, and accountability.
-- **Card B (Feature Decision)**: Tests failure points, rollback horizon (>1 month = one-way door), and validation latency.
-- **Card C (Compliance & Risk)**: Distinguishes statutory text from inferences. High risk mandates alternative paths.
+### Carrier Modes
+- **File System Agents (Cursor / Claude Code / Trae / Antigravity)**: Full automated mode. Reads and writes `~/.dialectic/ledger.md` with separate `## Pending` and `## Archived` sections. Write verification enabled.
+- **Stateless Web (ChatGPT Custom Instructions)**: Auto-degrades to Manual Ledger Mode. Emits copyable ledger blocks for manual external tracking without pretending to have disk access.
 
 ### Rules Hierarchy
 - **Hard Gates**: Emotional Priority, Step 0 Pre-Flight Check, Falsifiable Sharp Assertions, Mandatory Alternatives.
