@@ -5,7 +5,7 @@
     <sub>专门为产品决策挑刺、拦截自嗨伪需求的极简 AI 技能（Skill）</sub>
   </p>
   <p align="center">
-    <img src="https://img.shields.io/badge/version-3.1-black?style=flat-square" alt="v3.1">
+    <img src="https://img.shields.io/badge/version-3.2-black?style=flat-square" alt="v3.2">
     <img src="https://img.shields.io/badge/support-Claude%20%7C%20Cursor%20%7C%20ChatGPT%20%7C%20Trae%20%7C%20Antigravity-blue?style=flat-square" alt="Support">
     <img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" alt="MIT">
   <p align="center">
@@ -28,16 +28,18 @@
 
 ---
 
-## ⚡ 三档极简入口
+## ⚡ 三档入口与硬分界规则
 
-- 🔪 **极速两问 (Flash · 1 分钟)**：小改动、单点功能。只问两句：*“不做真的会死吗？”、“现场谁最不想让它上线？”*
-- 🧪 **试错沙盒 (Sandbox · 7 天)**：前沿新物种、全新概念。锁定唯一致命假设，以 $\le$ 7天 / ¥500 配额做极小闭环实验。
-- 📋 **全维审查 (Deep · 15 分钟)**：核心业务线与重大方案。审查现场利益抵制、防指标表演性合规、输出代偿降级生路。
+严格按**决策成本硬分界**自动匹配，杜绝形式主义：
+- 🔪 **极速两问 (Flash · 1 分钟)**：改动面 $\le 1$ 个流程节点、物理可秒级回滚、零外部预算。两问见血（若答“致命卡死”或说不出具体受阻角色，**自动强制升档至 Deep**）。
+- 🧪 **试错沙盒 (Sandbox · 7 天)**：无历史先例/全新交互，且必须先花时间或金钱才能验证真伪。锁定唯一致命假设，以 $\le$ 7天 / ¥500 做极简闭环验证。
+- 📋 **全维审查 (Deep · 15 分钟)**：涉及 $\ge 2$ 个角色/部门利益重分配、牵涉外部合规责任、或直接预算 > ¥2000。全景推演博弈、制度穿透与代偿生路。
 
 ---
 
-## 🚫 四条底线铁律
+## 🚫 底线铁律与情绪仲裁
 
+0. **情绪仲裁 (Soul First Gate)**：人优先于事。当输入混杂情绪宣泄/失落焦虑与方案构想时，驳真**推迟一轮**先接住情绪；出现“别驳我”等显式豁免词强制停用，绝不追问。
 1. **指名道姓**：必须指明具体岗位（经办人、科室主任）的利益受损，严禁使用“用户习惯难改”等空词。
 2. **防误杀低频**：严肃合规业务，严禁套用消费级 C 端“频次×痛点”乘法公式。
 3. **给代偿生路**：方案被毙掉时，强制提炼真正发心，给出单点切片、成熟平台寄生或半人工服务退路。
@@ -58,7 +60,7 @@ git clone https://github.com/shahuichao24-ops/Dialectic-skill.git ~/.agents/skil
 > *“帮我用驳真评估这个方案靠不靠谱”*  
 > *“想加个新功能，用极速两问自检一下”*
 
-随库附带标准测试集：[evals/test_cases.md](evals/test_cases.md)（含 C 端功能、B 端低频合规、前沿交互、自嗨看板 4 大典型场景）。
+随库附带标准测试集：[evals/test_cases.md](evals/test_cases.md)（含 C 端功能、B 端低频合规、前沿交互、自嗨看板、情绪熔断、动态升档 6 大典型场景）。
 
 ---
 
@@ -72,12 +74,13 @@ git clone https://github.com/shahuichao24-ops/Dialectic-skill.git ~/.agents/skil
 - **Default AI**: *"Great idea! Gamification boosts daily active users..."*
 - **Dialectic AI**: *"Kill it. Users won't die without it. Loyal users hate notification clutter. You only attract free-riders. Keep a silent local streak if needed."*
 
-### 3 Execution Modes
-- 🔪 **Flash Screen (1 min)**: *Will users critically get stuck without it? Who least wants this deployed?*
-- 🧪 **Innovation Sandbox (7 days / $50)**: Isolate the single fatal assumption with an explicit stopping condition.
-- 📋 **Deep Audit (15 min)**: Penetrate stakeholder resistance, early contributor deficit, and metric gaming.
+### 3 Execution Modes & Hard Boundaries
+- 🔪 **Flash Screen (1 min)**: $\le 1$ process node, physically reversible, zero budget. Two razor-sharp questions (auto-escalates to Deep if critical block is hit or resistance is ambiguous).
+- 🧪 **Innovation Sandbox (7 days / $50)**: No precedent/data, requires capital/time to validate. Test the single fatal assumption.
+- 📋 **Deep Audit (15 min)**: Affects $\ge 2$ departments/roles, external compliance liability, or budget > $300 / ¥2000. Full audit of stakeholder gaming, regulatory friction, and alternative pathways.
 
-### 4 Ground Rules
+### Ground Rules & Soul First Gate
+0. **Soul First Gate (Emotional Priority)**: People over tasks. When emotional fatigue/crisis conflicts with proposal signals, delay Dialectic for one turn to validate the user's situation; explicit opt-outs ("don't audit me", "just venting") immediately shut down the skill with no nagging.
 1. **Specific Roles Only**: Must name concrete stakeholders (e.g., clerks, directors) and their real friction.
 2. **No Low-Frequency Bias**: High-liability compliance tasks cannot be dismissed by consumer frequency metrics.
 3. **Alternative Pathways**: Rejected proposals must provide a 10% slice, host attachment, or service-first alternative.
