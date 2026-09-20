@@ -37,13 +37,16 @@
 
 ---
 
-## 🚫 底线铁律与情绪仲裁
+## 🚫 五大底线铁律与情绪仲裁
 
 0. **情绪仲裁 (Soul First Gate)**：人优先于事。当输入混杂情绪宣泄/失落焦虑与方案构想时，驳真**推迟一轮**先接住情绪；出现“别驳我”等显式豁免词强制停用，绝不追问。
-1. **指名道姓**：必须指明具体岗位（经办人、科室主任）的利益受损，严禁使用“用户习惯难改”等空词。
-2. **防误杀低频**：严肃合规业务，严禁套用消费级 C 端“频次×痛点”乘法公式。
-3. **给代偿生路**：方案被毙掉时，强制提炼真正发心，给出单点切片、成熟平台寄生或半人工服务退路。
-4. **公式是诊断仪**：量化公式不是打分机器，唯一作用是找准团队认知分歧点。
+1. **利益受损具象化 (指名道姓)**：必须指明具体岗位（经办人、科室主任）的利益受损、权力削弱与背锅风险，严禁使用“用户习惯难改”等空词。
+2. **严禁低频场景误杀 (责任建模)**：严肃合规业务，严禁套用消费级 C 端“频次×痛点”乘法公式，必须按责任暴露与出错代价建模。
+3. **法规依据三级隔离**：涉及政策标准，必须显式区分标注：`【条文原文】`、`【合理推断】`、`【实务惯例】`。
+4. **强制给出代偿生路**：方案被毙掉时，强制提炼 20% 真正发心，给出单点切片、成熟平台寄生或半人工服务退路。
+5. **核心致命假设显式标记**：必须标出唯一最脆弱假设，回答“若该假设被推翻，项目靠什么立足”。
+
+> 💡 **附注（诊断仪非打分器）**：量化公式唯一作用是找准团队认知分歧点（如对迁移可行性或监管外力的判断分歧），非机械算命打分机器。
 
 ---
 
@@ -79,12 +82,15 @@ git clone https://github.com/shahuichao24-ops/Dialectic-skill.git ~/.agents/skil
 - 🧪 **Innovation Sandbox (7 days / $50)**: No precedent/data, requires capital/time to validate. Test the single fatal assumption.
 - 📋 **Deep Audit (15 min)**: Affects $\ge 2$ departments/roles, external compliance liability, or budget > $300 / ¥2000. Full audit of stakeholder gaming, regulatory friction, and alternative pathways.
 
-### Ground Rules & Soul First Gate
+### 5 Ground Rules & Soul First Gate
 0. **Soul First Gate (Emotional Priority)**: People over tasks. When emotional fatigue/crisis conflicts with proposal signals, delay Dialectic for one turn to validate the user's situation; explicit opt-outs ("don't audit me", "just venting") immediately shut down the skill with no nagging.
-1. **Specific Roles Only**: Must name concrete stakeholders (e.g., clerks, directors) and their real friction.
-2. **No Low-Frequency Bias**: High-liability compliance tasks cannot be dismissed by consumer frequency metrics.
-3. **Alternative Pathways**: Rejected proposals must provide a 10% slice, host attachment, or service-first alternative.
-4. **Formulas as Diagnostics**: Math is used solely to locate team disagreements, not for arbitrary scoring.
+1. **Specific Roles Only**: Must name concrete stakeholders (e.g., clerks, directors) and their real friction, loss of control, or liability. Vague terms banned.
+2. **No Low-Frequency Bias**: High-liability compliance tasks cannot be dismissed by consumer frequency metrics. Model by error cost and exposure.
+3. **3-Tier Regulatory Isolation**: Explicitly tag regulatory claims as `[Statutory Text]`, `[Logical Inference]`, or `[Industry Custom]`.
+4. **Alternative Pathways**: Rejected proposals must extract the core 20% intent to provide a 10% slice, host attachment, or service-first alternative.
+5. **Explicit Fatal Assumption**: Must isolate the single most fragile hypothesis that could sink the entire initiative.
+
+> 💡 **Note (Diagnostics over Scoring)**: Formulas serve solely to pinpoint team disagreements (e.g., switchability vs. regulatory pressure), not as arbitrary scorecards.
 
 ```bash
 git clone https://github.com/shahuichao24-ops/Dialectic-skill.git ~/.agents/skills/Dialectic
