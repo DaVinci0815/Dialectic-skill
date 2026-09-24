@@ -7,7 +7,7 @@
   <p align="center">
     <img src="https://img.shields.io/badge/version-3.3-black?style=flat-square" alt="v3.3">
     <img src="https://img.shields.io/badge/ledger-~%2F.dialectic%2Fledger.md-blue?style=flat-square" alt="Ledger">
-    <img src="https://img.shields.io/badge/support-Claude%20%7C%20Cursor%20%7C%20ChatGPT%20%7C%20Trae%20%7C%20Antigravity-blue?style=flat-square" alt="Support">
+    <img src="https://img.shields.io/badge/support-Cursor%20%7C%20Claude%20Code%20%7C%20Trae%20%7C%20Antigravity%20%7C%20ChatGPT-blue?style=flat-square" alt="Support">
     <img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" alt="MIT">
   <p align="center">
     <img src="assets/banner.jpg" alt="Dialectic Banner" width="100%">
@@ -18,12 +18,13 @@
 
 ### 为什么需要它？
 
-默认的大模型倾向于顺从赞美你的构想，容易忽视组织推行阻力与潜在的合规风险。Dialectic 强迫大模型站在反面寻找真实破绽，并在每次审查后留下可验证的预测记录。
+默认的大模型倾向于顺从赞美你的构想，容易忽视真实的组织推行阻力与潜在的合规风险。Dialectic 强迫大模型站在反面寻找真实破绽，并在每次审查后留下可验证的预测记录。
 
 | 用户提议 | 普通回答 | 驳真审查 |
 |---|---|---|
-| *“在轻量工具里做签到打卡提升活跃度”* | “很好的想法，积分能增加粘性……” | **放弃**：不做这个功能用户流程不受阻；老用户反感打扰；引来的多是非目标用户。 |
-| *“一年用一两次的合规系统性价比低，砍掉”* | “确实，按使用频率看投入不划算……” | **保留**：严肃合规按单次出错代价评估。违规会导致行政处罚与业务暂停，不能因用得少就砍掉。 |
+| *“在轻量工具里做签到打卡提升活跃度”* | “很好的想法，打卡积分能增加用户粘性……” | **建议放弃**：不做该功能核心流程完全不受阻；老用户反感打扰；引来的多是非目标羊毛党。 |
+| *“一年用一两次的合规系统性价比低，砍掉”* | “确实，按使用频率看投入产出比不高……” | **建议保留**：严肃合规按单次出错代价评估。违规会导致行政处罚与资质暂停，不能因用得少就砍掉。 |
+| *“收货地址输入框增加成熟的前端实时校验”* | “可以做，但要注意增加用户认知负担……” | **建议通过 (PASS)**：已有真实报错数据支撑，交互成熟且 5 分钟可无损回滚，正面证据充分，客观放行。 |
 
 ---
 
@@ -32,46 +33,49 @@
 ### 1. Step 0 账本扫描与到期对账
 大模型对话结束后没有持久记忆。Dialectic 通过本地文件 `~/.dialectic/ledger.md` 实现跨会话对账。
 - **有文件权限环境 (Cursor / Claude Code / Trae / Antigravity / 命令行)**：  
-  全自动读写。每次审查前，自动检查待对账清单；有到期项时，请用户确认结果（验证命中 / 预测失误 / 样本不足 / 方案未执行 / 外部干扰）；确认后自动移入归档区，防止重复询问。新审查完成后，自动追加新记录。
+  全自动读写与归档。账本按 **待观察 (Pending)**、**逾期未对账 (Overdue Debt)**、**已归档 (Archived)** 三区严格管理。
+  - 会话交互时：发现逾期项，必须先弹出对账卡请用户核销，核销后移入归档区；
+  - 单轮自动化时：检测到逾期坏账，在结果顶部挂起【逾期债务警示】，不阻塞执行，杜绝掩盖陈年坏账。
 - **无文件权限环境 (网页版 ChatGPT / 纯聊天窗口)**：  
-  自动切换为「手动模式」。输出审查结论与留痕文本块，提示用户自行复制保存，绝不假装访问了本地磁盘。
+  自动切换为「手动台账模式」。输出审查结论与独立留痕文本块，提示用户自行复制保存，绝不假装访问了本地磁盘。
 
 ### 2. 三大审查焦点
 不搞抽象代号，直接按问题本质对齐审查焦点：
 - 🏢 **组织阻力 (Friction)**：多部门方案或需要上会评审。看谁吃亏、谁背锅、大家会不会表面配合私下敷衍。
-- 🔪 **功能必要 (Necessity)**：日常功能增删与新点子。看不做卡在哪一步、万一做错恢复原样要多久（超 1 个月按重大决策审查）。
-- ⚖️ **合规红线 (Compliance)**：严肃业务与法规合规。看出错代价有多大、依据是法律原文还是平时习惯（高风险必须给出低成本替代兜底方案）。
+- 🔪 **功能必要 (Necessity)**：日常功能增删与新点子。看不做卡在哪一步、万一做错恢复原样要多久（恢复成本超 1 个月按重大决策审查）。
+- ⚖️ **合规红线 (Compliance)**：严肃业务与法规合规。看出错代价有多大、依据是法律原文还是平时习惯（高风险必须给出低成本兜底替代方案）。
 
 ---
 
 ## 规则分层
 
-### 🔴 四大硬门禁 (只要违反，审查直接作废)
-0. **情绪优先**：发现用户情绪低落或疲惫时，先接住情绪，推迟审查；用户叫停立刻停止。
-1. **先对旧账**：本地账本有到期未确认项时，必须先对账，禁止直接开新账。
-2. **预测必须能检验**：留底预测必须有具体指标、必须写明“怎样算我说错了”、命中后必须有具体的调整动作，严禁空话。
-3. **必须给替代路径**：否定一个方案时，必须同时给出一个低成本尝试的替代解法。
+### 🔴 四大硬门禁 (只要违反任何一条，本次审查直接作废)
+1. **Gate 1：情绪关怀与显式叫停**：发现用户情绪低落或疲惫时，先接住情绪，推迟本轮审查；用户明确输入“别驳我”时立刻彻底退出，不追问、不输出卡片。
+2. **Gate 2：先对旧账与逾期清算**：启动审查前先扫描历史账本，有逾期账目时显式核销或公开债务警示，杜绝只开新账不管旧账。
+3. **Gate 3：预测必须具备可检验性**：留底预测必须满足“有具体客观指标”、“有明确反驳落空条件”、“有触发动作”，严禁无法证伪的空话。
+4. **Gate 4：否定必给可落地的替代路径**：否定一个方案时，必须提炼核心诉求，同时给出一个低成本尝试的替代做法。
 
 ### 🟡 四项实用分析指引
-- **找具体角色，禁止编造**：内部方案找具体受损岗位；早期个人项目若没有受损人，如实声明即可，禁止虚构老用户反对。
-- **不能因用得少就砍掉**：一年只用一两次但一旦出事要负重大责任的功能，按责任代价评估。
-- **分清依据硬不硬**：严格区分标注 `【条文原文】`、`【合理推断】` 与 `【实务惯例】`。
-- **排查机制漏洞**：看初期是否单向填数据无回报、考核是否诱发刷假数据、系统是否偷懒转嫁操作成本。
+- **找具体角色，禁止编造**：内部方案找具体受损岗位；早期个人项目若没有受损人，如实声明即可通过，严禁虚构老用户反对。
+- **守住客观底线，好方案必须放行**：对证据充分、成熟且可快速回滚的改动，客观放行通过 (PASS)，严禁为批判而批判。
+- **不能因用得少就砍掉**：一年只用一两次但一旦出事要负重大责任的功能，按单次责任代价评估。
+- **分清依据硬度，严禁胡编法条**：严格区分标注 `【条文原文】`、`【合理推断】` 与 `【实务惯例】`。
 
 ---
 
-## 准确率看板与失误记录
+## 准确率看板与统计科学
 
-本框架公开记录预测对账结果，作为规则持续修订的凭证。选择“外部干扰”必须注明具体因果原因，防止把失误归咎于大环境：
+本框架公开记录预测对账结果，作为规则持续修订的凭证。选择“外部干扰”必须注明具体客观原因，防止把失误归咎于大环境。
 
-| 指标项 | 当前数据 | 说明 |
+| 指标项 | 当前数据 | 说明与计算口径 |
 |---|---|---|
-| **累计有效样本** | **0** | 仅统计命中与失误项，累计 $\ge 5$ 次开始评估 |
-| **预测命中率** | **-%** | $\ge 70\%$ 说明框架有效；$< 50\%$ 须重新修订规则 |
+| **已归档总样本** | **0** | 命中 + 失误 + 未执行 + 外部干扰 + 样本不足 之和 |
+| **有效结案样本** | **0** | 仅统计命中与失误项。$N < 20$ 为探索积累期，不宣称已证明；$N \ge 20$ 具备统计参考价值 |
+| **预测命中率** | **-%** | $\text{命中次数} / (\text{命中次数} + \text{失误次数})$ |
 | **公开失误次数** | **0** | 每次预测失误均沉淀为一条规则补丁 |
-| **方案未执行率** | **-%** | 独立统计，评估建议在实际中的落地可行性 |
-| **外部干扰率** | **-%** | 占比 $> 20\%$ 说明预测时未充分考虑外部变数 |
-| **样本不足率** | **-%** | 占比 $> 30\%$ 提示观察期设置过短或指标不具体 |
+| **方案未执行率** | **-%** | $\text{未执行次数} / \text{已归档总样本}$，评估建议在实际中的落地可行性 |
+| **外部干扰率** | **-%** | $\text{外部干扰次数} / \text{已归档总样本}$，偏高提示立项时未剥离外部变量 |
+| **样本不足率** | **-%** | $\text{样本不足次数} / \text{已归档总样本}$，偏高提示观察期过短或指标不具体 |
 
 ---
 
@@ -91,26 +95,27 @@
 
 ---
 
-## 安装与使用
+## 安装与配置
 
-### 1. 本地文件环境 (推荐)
-适用于 **Claude Code / Cursor / Trae / Antigravity / 命令行 Agent**：
-```bash
-# 初始化账本
-mkdir -p ~/.dialectic && touch ~/.dialectic/ledger.md
+### 1. 本地文件环境 (支持全自动账本对账)
 
-# 克隆技能
-git clone https://github.com/shahuichao24-ops/Dialectic-skill.git ~/.agents/skills/Dialectic
-```
-将自动启用 Step 0 自动读写与归档对账。
+- **Cursor**：将 [`SKILL.md`](SKILL.md) 内容直接复制到项目的 `.cursorrules` 或全局 Settings $\to$ Rules 中。
+- **Trae / Antigravity / 自定义 Agent**：克隆本仓库到用户技能目录：
+  ```bash
+  git clone https://github.com/shahuichao24-ops/Dialectic-skill.git ~/.agents/skills/dialectic
+  ```
+- **Claude Code**：将 [`SKILL.md`](SKILL.md) 放入当前项目根目录 `.claude/skills/` 下，或作为 Custom Instructions / CLAUDE.md 引入。
 
-### 2. 网页无文件环境
-适用于 **ChatGPT Custom Instructions / 纯 Web 界面**：  
-直接将 [`SKILL.md`](SKILL.md) 复制到 Custom Instructions 中。系统自动切换为「手动模式」，审查后输出独立留痕文本块供用户手动记录。
+首次运行时，工具将自动创建 `~/.dialectic/ledger.md`（若遇到沙盒权限限制则自动降级在当前工程目录 `.dialectic/ledger.md` 下创建）。
+
+### 2. 纯网页无文件环境 (手动台账模式)
+适用于 **ChatGPT 网页版 / Claude.ai 纯 Web 界面**：  
+直接将 [`SKILL.md`](SKILL.md) 复制到 Custom Instructions（自定义指令）中。系统自动切换为「手动台账模式」，每次审查输出独立留痕文本块供用户手动记录。
 
 ### 3. 调用示例
 > *“帮我用驳真评估这个功能要不要做”*  
-> *“有个方案下周要上会评审，从组织阻力角度检查一下”*
+> *“有个方案下周要上会评审，从组织阻力角度帮我过一下”*  
+> *“新做的地址校验功能，用驳真看看”*
 
 ---
 
@@ -123,9 +128,11 @@ git clone https://github.com/shahuichao24-ops/Dialectic-skill.git ~/.agents/skil
 - 🔪 **Necessity**: Failure points, rollback horizon (>1 month = one-way door), and validation latency.
 - ⚖️ **Compliance**: Statutory text vs inferences. High risk mandates alternative fallbacks.
 
-### Core Rules
-- **Hard Gates**: Emotional Priority, Pre-Flight Ledger Check, Falsifiable Sharp Assertions, Mandatory Alternatives.
-- **Guidelines**: Concrete Stakeholders (reverse burden of proof for solo projects), Liability Modeling, 3-Tier Regulatory Tagging, 4 System Loopholes.
+### 4 Hard Gates
+- **Gate 1: Emotional Priority & User Stop**: Deferred on user emotional distress; disabled immediately upon "don't critique".
+- **Gate 2: Ledger Check & Overdue Handling**: Pre-flight inspection of `ledger.md` to prevent unverified debt accumulation.
+- **Gate 3: Falsifiable Sharp Prediction**: Concrete metrics, failure criteria, and bound trigger actions.
+- **Gate 4: Mandatory Fallback Path**: Mandates practical, low-cost fallback options whenever rejecting proposals.
 
 ---
 
