@@ -29,7 +29,7 @@ async function main() {
 
   \u3010\u5B9E\u6218\u9884\u6D4B\u6982\u89C8\u3011
   - \u5F85\u89C2\u5BDF\u9884\u6D4B (Active Pending)   : ${stats.activePending} \u6761
-  - \u903E\u671F\u672A\u5BF9\u8D26 (Overdue Debt)     : ${stats.overdue > 0 ? `\x1B[31m${stats.overdue} \u6761 \u26A0\uFE0F (\u5B58\u5728\u574F\u8D26\u503A\u52A1)\x1B[0m` : `0 \u6761 \u2705`}
+  - \u903E\u671F\u5F85\u5F00\u7BB1 (Overdue Unbox)    : ${stats.overdue > 0 ? `\x1B[33m${stats.overdue} \u6761 \u{1F381} (\u5230\u671F\u7B49\u5F85\u63ED\u6653)\x1B[0m` : `0 \u6761 \u2705`}
   - \u5DF2\u5F52\u6863\u7ED3\u6848 (Archived Total)   : ${stats.archived} \u6761
 
   \u3010\u7EDF\u8BA1\u79D1\u5B66\u770B\u677F\u3011
@@ -43,7 +43,7 @@ async function main() {
   - \u6837\u672C\u4E0D\u8DB3\u7387                   : ${stats.insufficientSampleRate.toFixed(1)}% (${stats.insufficientSample} \u6B21)
 `);
     if (debts.overdue.length > 0) {
-      console.log(`\x1B[33m  \u26A0\uFE0F \u3010\u5F85\u6E05\u7B97\u574F\u8D26\u6E05\u5355\u3011\x1B[0m`);
+      console.log(`\x1B[33m  \u{1F381} \u3010\u5230\u671F\u5F85\u5F00\u7BB1\u6E05\u5355 (\u770B\u770B\u5F53\u521D\u8C01\u731C\u4E2D\u4E86)\u3011\x1B[0m`);
       for (const d of debts.overdue) {
         console.log(`  - [${d.id}] \u5230\u671F\u65E5: ${d.windowEnd} | \u76EE\u6807: ${d.target} | \u9884\u6D4B: ${d.prediction}`);
       }

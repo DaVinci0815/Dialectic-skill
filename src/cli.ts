@@ -30,7 +30,7 @@ async function main() {
 
   【实战预测概览】
   - 待观察预测 (Active Pending)   : ${stats.activePending} 条
-  - 逾期未对账 (Overdue Debt)     : ${stats.overdue > 0 ? `\x1b[31m${stats.overdue} 条 ⚠️ (存在坏账债务)\x1b[0m` : `0 条 ✅`}
+  - 逾期待开箱 (Overdue Unbox)    : ${stats.overdue > 0 ? `\x1b[33m${stats.overdue} 条 🎁 (到期等待揭晓)\x1b[0m` : `0 条 ✅`}
   - 已归档结案 (Archived Total)   : ${stats.archived} 条
 
   【统计科学看板】
@@ -45,7 +45,7 @@ async function main() {
 `);
 
     if (debts.overdue.length > 0) {
-      console.log(`\x1b[33m  ⚠️ 【待清算坏账清单】\x1b[0m`);
+      console.log(`\x1b[33m  🎁 【到期待开箱清单 (看看当初谁猜中了)】\x1b[0m`);
       for (const d of debts.overdue) {
         console.log(`  - [${d.id}] 到期日: ${d.windowEnd} | 目标: ${d.target} | 预测: ${d.prediction}`);
       }
