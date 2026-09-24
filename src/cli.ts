@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { runMcpServer } from './server.js';
 import { LedgerStore } from './store.js';
+import { ProductScout } from './scout.js';
 
 async function main() {
   const args = process.argv.slice(2);
@@ -119,15 +120,40 @@ async function main() {
     return;
   }
 
+  if (command === 'scout') {
+    const targetUrl = args[1];
+    if (!targetUrl) {
+      console.log(`\n❌ 请提供目标网页链接，例如: dialectic scout https://example.com\n`);
+      return;
+    }
+    console.log(`\n🌐 正在轻量嗅探并提取产品情报 (0 内存消耗): ${targetUrl} ...`);
+    const scout = new ProductScout();
+    try {
+      const res = await scout.scoutUrl(targetUrl);
+      console.log(`\n┌──────────────────────────────────────────────────────────────┐`);
+      console.log(`│                   🔍  DIALECTIC 竞品情报嗅探                  │`);
+      console.log(`└──────────────────────────────────────────────────────────────┘`);
+      console.log(`  🎯 目标标题: ${res.title}`);
+      console.log(`  🔗 来源链接: ${res.url}`);
+      console.log(`  📊 字符规模: ${res.charCount} 字符 (已清洗去噪)\n`);
+      console.log(res.content);
+      console.log(`\n💡 提示：可直接将上述竞品情报提交给驳真进行三大透镜对抗推演！\n`);
+    } catch (err: any) {
+      console.error(`\n❌ 嗅探失败: ${err.message}\n`);
+    }
+    return;
+  }
+
   console.log(`
 🛡️ Dialectic CLI - 驳真决策审查引擎
 
 使用方法:
-  dialectic [mcp]     启动 MCP Server (供 Cursor / Claude Code 连接)
-  dialectic board     查看实战预测命中率与战绩看板
-  dialectic list      列出待观察与逾期留痕清单
-  dialectic init      自动在当前工程配置 Cursor MCP
-  dialectic --help    查看帮助
+  dialectic [mcp]       启动 MCP Server (供 Cursor / Claude Code 连接)
+  dialectic board       查看实战预测命中率与战绩看板
+  dialectic list        列出待观察与逾期留痕清单
+  dialectic scout <URL> 零内存轻量嗅探竞品或产品网页情报
+  dialectic init        自动在当前工程配置 Cursor MCP
+  dialectic --help      查看帮助
 `);
 }
 

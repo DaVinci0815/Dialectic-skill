@@ -302,6 +302,126 @@ var LedgerStore = class {
   }
 };
 
+// src/scout.ts
+var ProductScout = class {
+  timeoutMs;
+  constructor(timeoutMs = 15e3) {
+    this.timeoutMs = timeoutMs;
+  }
+  /**
+   * 嗅探并提取指定产品/竞品网页的核心内容与结构化 Markdown
+   * 策略：默认优先原生直连提取 (100% 独立、无依赖、防封锁)，若配置了 JINA_API_KEY 则走增强通道
+   */
+  async scoutUrl(targetUrl) {
+    let validUrl;
+    try {
+      validUrl = new URL(targetUrl);
+    } catch {
+      throw new Error(`\u65E0\u6548\u7684 URL \u683C\u5F0F: ${targetUrl}`);
+    }
+    try {
+      return await this.scoutDirect(validUrl.toString());
+    } catch (directErr) {
+      if (process.env.JINA_API_KEY) {
+        return await this.scoutViaJina(validUrl.toString());
+      }
+      throw new Error(`\u60C5\u62A5\u55C5\u63A2\u5931\u8D25: ${directErr.message || String(directErr)}`);
+    }
+  }
+  /**
+   * 原生独立抓取：标准 HTTP fetch + 智能 HTML 去噪蒸馏 (毫秒级、0 外部依赖)
+   */
+  async scoutDirect(url) {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), this.timeoutMs);
+    try {
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+          Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+          "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8"
+        },
+        signal: controller.signal
+      });
+      clearTimeout(timeoutId);
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status} ${response.statusText}`);
+      }
+      const html = await response.text();
+      return this.distillHtml(url, html);
+    } catch (err) {
+      clearTimeout(timeoutId);
+      if (err.name === "AbortError") {
+        throw new Error(`\u8BF7\u6C42\u8D85\u65F6 (${this.timeoutMs / 1e3} \u79D2)`);
+      }
+      throw err;
+    }
+  }
+  /**
+   * HTML 智能去噪与 Markdown 提炼引擎
+   */
+  distillHtml(url, html) {
+    const titleMatch = html.match(/<title[^>]*>([\s\S]*?)<\/title>/i);
+    const title = titleMatch ? this.cleanHtmlEntities(titleMatch[1].trim()) : "\u672A\u547D\u540D\u4EA7\u54C1\u9875\u9762";
+    let body = html.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "").replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, "").replace(/<svg\b[^<]*(?:(?!<\/svg>)<[^<]*)*<\/svg>/gi, "").replace(/<noscript\b[^<]*(?:(?!<\/noscript>)<[^<]*)*<\/noscript>/gi, "").replace(/<!--[\s\S]*?-->/g, "");
+    const mainMatch = body.match(/<(main|article)\b[^>]*>([\s\S]*?)<\/\1>/i);
+    if (mainMatch) {
+      body = mainMatch[2];
+    } else {
+      const bodyMatch = body.match(/<body\b[^>]*>([\s\S]*?)<\/body>/i);
+      if (bodyMatch) {
+        body = bodyMatch[1];
+      }
+    }
+    let md = body.replace(/<h1\b[^>]*>([\s\S]*?)<\/h1>/gi, "\n\n# $1\n\n").replace(/<h2\b[^>]*>([\s\S]*?)<\/h2>/gi, "\n\n## $1\n\n").replace(/<h3\b[^>]*>([\s\S]*?)<\/h3>/gi, "\n\n### $1\n\n").replace(/<h4\b[^>]*>([\s\S]*?)<\/h4>/gi, "\n\n#### $1\n\n").replace(/<li\b[^>]*>([\s\S]*?)<\/li>/gi, "\n- $1").replace(/<p\b[^>]*>([\s\S]*?)<\/p>/gi, "\n\n$1\n\n").replace(/<br\s*[\/]?>/gi, "\n").replace(/<a\b[^>]*href="([^"]*)"[^>]*>([\s\S]*?)<\/a>/gi, "[$2]($1)").replace(/<[^>]+>/g, " ");
+    md = this.cleanHtmlEntities(md);
+    md = md.replace(/[ \t]+/g, " ").replace(/\n\s*\n\s*\n/g, "\n\n").trim();
+    const MAX_CHARS = 1e4;
+    if (md.length > MAX_CHARS) {
+      md = md.slice(0, MAX_CHARS) + `
+
+*(\u5185\u5BB9\u8FC7\u957F\uFF0C\u5DF2\u622A\u53D6\u524D ${MAX_CHARS} \u5B57\u7B26\u6838\u5FC3\u6B63\u6587)*`;
+    }
+    return {
+      url,
+      title,
+      content: md,
+      charCount: md.length,
+      extractedAt: (/* @__PURE__ */ new Date()).toISOString(),
+      method: "native-distill"
+    };
+  }
+  cleanHtmlEntities(text) {
+    return text.replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&copy;/g, "\xA9");
+  }
+  /**
+   * 云端 Reader 备用通道 (支持 JINA_API_KEY)
+   */
+  async scoutViaJina(url) {
+    const jinaUrl = `https://r.jina.ai/${url}`;
+    const headers = {
+      "User-Agent": "DialecticScout/4.0"
+    };
+    if (process.env.JINA_API_KEY) {
+      headers["Authorization"] = `Bearer ${process.env.JINA_API_KEY}`;
+    }
+    const response = await fetch(jinaUrl, { headers });
+    if (!response.ok) {
+      throw new Error(`\u4E91\u7AEF Reader \u5F02\u5E38: HTTP ${response.status}`);
+    }
+    const text = await response.text();
+    return {
+      url,
+      title: "\u4E91\u7AEF\u84B8\u998F\u60C5\u62A5",
+      content: text.slice(0, 1e4),
+      charCount: text.length,
+      extractedAt: (/* @__PURE__ */ new Date()).toISOString(),
+      method: "cloud-reader"
+    };
+  }
+};
+
 // src/server.ts
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
@@ -399,6 +519,20 @@ function createMcpServer(customDir) {
             type: "object",
             properties: {}
           }
+        },
+        {
+          name: "dialectic_scout_product",
+          description: "\u3010\u7ADE\u54C1\u4E0E\u5E02\u573A\u60C5\u62A5\u55C5\u63A2\u3011\u8F93\u5165\u4EA7\u54C1\u5B98\u7F51\u3001\u7ADE\u54C1\u529F\u80FD\u9875\u6216\u4EA7\u54C1\u6587\u7AE0\u94FE\u63A5\uFF0C\u96F6\u5185\u5B58\u6D88\u8017\u63D0\u53D6\u9AD8\u7EAF\u5EA6 Markdown \u6B63\u6587\u4E0E\u6838\u5FC3\u4EA7\u54C1\u4E8B\u5B9E\u3002",
+          inputSchema: {
+            type: "object",
+            properties: {
+              url: {
+                type: "string",
+                description: "\u76EE\u6807\u4EA7\u54C1/\u7ADE\u54C1\u7F51\u9875\u94FE\u63A5 (\u5982 https://example.com)"
+              }
+            },
+            required: ["url"]
+          }
         }
       ]
     };
@@ -489,6 +623,29 @@ function createMcpServer(customDir) {
           ]
         };
       }
+      if (name === "dialectic_scout_product") {
+        const schema = z.object({
+          url: z.string().url()
+        });
+        const parsed = schema.parse(args);
+        const scout = new ProductScout();
+        const result = await scout.scoutUrl(parsed.url);
+        return {
+          content: [
+            {
+              type: "text",
+              text: `# \u{1F50D} \u7ADE\u54C1\u60C5\u62A5: ${result.title}
+- \u6765\u6E90: ${result.url}
+- \u5B57\u7B26\u6570: ${result.charCount}
+- \u55C5\u63A2\u65F6\u95F4: ${result.extractedAt}
+
+---
+
+${result.content}`
+            }
+          ]
+        };
+      }
       throw new Error(`\u672A\u77E5\u7684\u5DE5\u5177: ${name}`);
     } catch (err) {
       return {
@@ -512,6 +669,7 @@ async function runMcpServer() {
 
 export {
   LedgerStore,
+  ProductScout,
   createMcpServer,
   runMcpServer
 };

@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 import {
   LedgerStore,
+  ProductScout,
   runMcpServer
-} from "./chunk-JHW2BYHK.js";
+} from "./chunk-ABNRUFFQ.js";
 
 // src/cli.ts
 import fs from "fs";
@@ -118,15 +119,48 @@ async function main() {
     }
     return;
   }
+  if (command === "scout") {
+    const targetUrl = args[1];
+    if (!targetUrl) {
+      console.log(`
+\u274C \u8BF7\u63D0\u4F9B\u76EE\u6807\u7F51\u9875\u94FE\u63A5\uFF0C\u4F8B\u5982: dialectic scout https://example.com
+`);
+      return;
+    }
+    console.log(`
+\u{1F310} \u6B63\u5728\u8F7B\u91CF\u55C5\u63A2\u5E76\u63D0\u53D6\u4EA7\u54C1\u60C5\u62A5 (0 \u5185\u5B58\u6D88\u8017): ${targetUrl} ...`);
+    const scout = new ProductScout();
+    try {
+      const res = await scout.scoutUrl(targetUrl);
+      console.log(`
+\u250C\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510`);
+      console.log(`\u2502                   \u{1F50D}  DIALECTIC \u7ADE\u54C1\u60C5\u62A5\u55C5\u63A2                  \u2502`);
+      console.log(`\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518`);
+      console.log(`  \u{1F3AF} \u76EE\u6807\u6807\u9898: ${res.title}`);
+      console.log(`  \u{1F517} \u6765\u6E90\u94FE\u63A5: ${res.url}`);
+      console.log(`  \u{1F4CA} \u5B57\u7B26\u89C4\u6A21: ${res.charCount} \u5B57\u7B26 (\u5DF2\u6E05\u6D17\u53BB\u566A)
+`);
+      console.log(res.content);
+      console.log(`
+\u{1F4A1} \u63D0\u793A\uFF1A\u53EF\u76F4\u63A5\u5C06\u4E0A\u8FF0\u7ADE\u54C1\u60C5\u62A5\u63D0\u4EA4\u7ED9\u9A73\u771F\u8FDB\u884C\u4E09\u5927\u900F\u955C\u5BF9\u6297\u63A8\u6F14\uFF01
+`);
+    } catch (err) {
+      console.error(`
+\u274C \u55C5\u63A2\u5931\u8D25: ${err.message}
+`);
+    }
+    return;
+  }
   console.log(`
 \u{1F6E1}\uFE0F Dialectic CLI - \u9A73\u771F\u51B3\u7B56\u5BA1\u67E5\u5F15\u64CE
 
 \u4F7F\u7528\u65B9\u6CD5:
-  dialectic [mcp]     \u542F\u52A8 MCP Server (\u4F9B Cursor / Claude Code \u8FDE\u63A5)
-  dialectic board     \u67E5\u770B\u5B9E\u6218\u9884\u6D4B\u547D\u4E2D\u7387\u4E0E\u6218\u7EE9\u770B\u677F
-  dialectic list      \u5217\u51FA\u5F85\u89C2\u5BDF\u4E0E\u903E\u671F\u7559\u75D5\u6E05\u5355
-  dialectic init      \u81EA\u52A8\u5728\u5F53\u524D\u5DE5\u7A0B\u914D\u7F6E Cursor MCP
-  dialectic --help    \u67E5\u770B\u5E2E\u52A9
+  dialectic [mcp]       \u542F\u52A8 MCP Server (\u4F9B Cursor / Claude Code \u8FDE\u63A5)
+  dialectic board       \u67E5\u770B\u5B9E\u6218\u9884\u6D4B\u547D\u4E2D\u7387\u4E0E\u6218\u7EE9\u770B\u677F
+  dialectic list        \u5217\u51FA\u5F85\u89C2\u5BDF\u4E0E\u903E\u671F\u7559\u75D5\u6E05\u5355
+  dialectic scout <URL> \u96F6\u5185\u5B58\u8F7B\u91CF\u55C5\u63A2\u7ADE\u54C1\u6216\u4EA7\u54C1\u7F51\u9875\u60C5\u62A5
+  dialectic init        \u81EA\u52A8\u5728\u5F53\u524D\u5DE5\u7A0B\u914D\u7F6E Cursor MCP
+  dialectic --help      \u67E5\u770B\u5E2E\u52A9
 `);
 }
 main().catch((err) => {

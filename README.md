@@ -83,20 +83,13 @@
 npx dialectic-mcp board
 ```
 
-```
-┌──────────────────────────────────────────────────────────────┐
-│                   🛡️  DIALECTIC · 驳真战绩看板                 │
-└──────────────────────────────────────────────────────────────┘
-  📁 账本路径: ~/.dialectic
-  🕒 系统时间: 2026-09-24 17:20
-
-  【实战预测概览】
-  - 待观察预测 (Active Pending)   : 1 条
-  - 逾期未对账 (Overdue Debt)     : 0 条 ✅
-  - 已归档结案 (Archived Total)   : 0 条
+### 2. 零内存嗅探竞品情报
+无需启动笨重浏览器，毫秒级提取竞品官网或功能页的核心事实，自动清洗为高纯度 Markdown：
+```bash
+npx dialectic-mcp scout https://example.com
 ```
 
-### 2. 在 Cursor 中启用 (原生 MCP)
+### 3. 在 Cursor 中启用 (原生 MCP)
 一键在当前工程生成 Cursor MCP 配置：
 ```bash
 npx dialectic-mcp init

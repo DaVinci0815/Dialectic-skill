@@ -43,6 +43,7 @@ description: >-
 ### 运行环境双模自适应
 - **模式 A：已挂载 Dialectic MCP 原生引擎 (推荐)**
   - 启动审查前：优先调用 `dialectic_check_debts` 检查逾期坏账与待对账记录；
+  - 遇竞品链接与市场调研：调用 `dialectic_scout_product` 零内存抓取竞品事实，直切其盲区；
   - 用户确认结案时：调用 `dialectic_reconcile_debt` 原子化归档；
   - 审查完成时：调用 `dialectic_record_prediction` 安全落盘留痕，代码引擎自动比对时钟与同步 `ledger.md`。
 - **模式 B：纯文本 / 无 MCP 环境 (自动降级)**

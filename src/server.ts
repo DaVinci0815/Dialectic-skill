@@ -6,6 +6,7 @@ import {
 } from '@modelcontextprotocol/sdk/types.js';
 import { z } from 'zod';
 import { LedgerStore } from './store.js';
+import { ProductScout } from './scout.js';
 
 export function createMcpServer(customDir?: string) {
   const store = new LedgerStore(customDir);
@@ -104,6 +105,21 @@ export function createMcpServer(customDir?: string) {
             properties: {},
           },
         },
+        {
+          name: 'dialectic_scout_product',
+          description:
+            '【竞品与市场情报嗅探】输入产品官网、竞品功能页或产品文章链接，零内存消耗提取高纯度 Markdown 正文与核心产品事实。',
+          inputSchema: {
+            type: 'object',
+            properties: {
+              url: {
+                type: 'string',
+                description: '目标产品/竞品网页链接 (如 https://example.com)',
+              },
+            },
+            required: ['url'],
+          },
+        },
       ],
     };
   });
@@ -197,6 +213,24 @@ export function createMcpServer(customDir?: string) {
             {
               type: 'text',
               text: JSON.stringify(stats, null, 2),
+            },
+          ],
+        };
+      }
+
+      if (name === 'dialectic_scout_product') {
+        const schema = z.object({
+          url: z.string().url(),
+        });
+        const parsed = schema.parse(args);
+        const scout = new ProductScout();
+        const result = await scout.scoutUrl(parsed.url);
+
+        return {
+          content: [
+            {
+              type: 'text',
+              text: `# 🔍 竞品情报: ${result.title}\n- 来源: ${result.url}\n- 字符数: ${result.charCount}\n- 嗅探时间: ${result.extractedAt}\n\n---\n\n${result.content}`,
             },
           ],
         };

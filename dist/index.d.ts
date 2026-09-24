@@ -112,4 +112,39 @@ declare function createMcpServer(customDir?: string): {
 };
 declare function runMcpServer(): Promise<void>;
 
-export { type LedgerData, type LedgerEntry, type LedgerStats, LedgerStore, type LensType, type ResolutionStatus, createMcpServer, runMcpServer };
+/**
+ * Dialectic Scout - 轻量级竞品与产品情报嗅探器
+ * 核心原则：零内存占用 (Zero-Memory Overhead)，多级容错兜底，原生极速解析。
+ */
+interface ScoutResult {
+    url: string;
+    title: string;
+    content: string;
+    charCount: number;
+    extractedAt: string;
+    method: 'native-distill' | 'cloud-reader';
+}
+declare class ProductScout {
+    private timeoutMs;
+    constructor(timeoutMs?: number);
+    /**
+     * 嗅探并提取指定产品/竞品网页的核心内容与结构化 Markdown
+     * 策略：默认优先原生直连提取 (100% 独立、无依赖、防封锁)，若配置了 JINA_API_KEY 则走增强通道
+     */
+    scoutUrl(targetUrl: string): Promise<ScoutResult>;
+    /**
+     * 原生独立抓取：标准 HTTP fetch + 智能 HTML 去噪蒸馏 (毫秒级、0 外部依赖)
+     */
+    private scoutDirect;
+    /**
+     * HTML 智能去噪与 Markdown 提炼引擎
+     */
+    private distillHtml;
+    private cleanHtmlEntities;
+    /**
+     * 云端 Reader 备用通道 (支持 JINA_API_KEY)
+     */
+    private scoutViaJina;
+}
+
+export { type LedgerData, type LedgerEntry, type LedgerStats, LedgerStore, type LensType, ProductScout, type ResolutionStatus, type ScoutResult, createMcpServer, runMcpServer };

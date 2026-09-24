@@ -1,11 +1,13 @@
 #!/usr/bin/env node
 import {
   LedgerStore,
+  ProductScout,
   createMcpServer,
   runMcpServer
-} from "./chunk-JHW2BYHK.js";
+} from "./chunk-ABNRUFFQ.js";
 export {
   LedgerStore,
+  ProductScout,
   createMcpServer,
   runMcpServer
 };
