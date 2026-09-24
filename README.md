@@ -1,8 +1,8 @@
 <p align="center">
   <h1 align="center">🛡️ 驳真 · Dialectic</h1>
   <p align="center">
-    <b>AI 总爱附和。驳真负责扮演你的“专业蓝军”。</b><br/>
-    <sub>商业的未来无法预测。但在大笔投入前，让驳真为你做一次极限压力测试。</sub>
+    <b>30 秒替你找破绽，30 天陪你见真章。</b><br/>
+    <sub>投入前做一次极限压力测试，到期后让时间裁决输赢。</sub>
   </p>
   <p align="center">
     <img src="https://img.shields.io/badge/version-4.0-black?style=flat-square" alt="v4.0">
@@ -119,9 +119,9 @@ npx dialectic-mcp init
 
 ## 🇬🇧 English
 
-> **Adversarial product decision review framework. Fast stress-tests first, optional bets to hold the AI accountable over time.**
+> **Adversarial product decision review framework. Stress-test in 30 seconds, settle the score in 30 days.**
 
-- **Fast Decision**: 30-second verdict, competitor autopsy facts, hard truths, and low-cost fallbacks.
+- **Fast Decision**: 30-second stress-test, competitor facts, hard truths, and low-cost fallbacks.
 - **Accountable Bets**: Challenge the AI with "bet 30 days" to log predictions. If you succeed, prove the AI wrong and log a strike on its record.
 
 ---
